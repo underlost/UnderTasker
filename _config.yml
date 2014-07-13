@@ -9,6 +9,6 @@ permalink:        pretty
 source:           src/site
 destination:      _gh_pages
 host:             0.0.0.0
-port:             9001
+port:             9005
 baseurl:          /
 encoding:         UTF-8
