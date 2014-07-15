@@ -22,7 +22,8 @@ module.exports = function (grunt) {
 
     // Metadata.
     pkg: grunt.file.readJSON('package.json'),
-    banner: ' * <%= pkg.name %> v<%= pkg.version %> (Built with UnderTasker)\n' +
+    banner: '/*!\n' +
+            ' * <%= pkg.name %> v<%= pkg.version %> (Built with UnderTasker)\n' +
             ' */\n',
     jqueryCheck: 'if (typeof jQuery === \'undefined\') { throw new Error(\'UnderTasker\\\'s JavaScript requires jQuery\') }\n\n',
 
