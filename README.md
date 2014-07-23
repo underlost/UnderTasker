@@ -20,7 +20,7 @@ If there’s a grunt plugin, you can use it with UnderTasker. Add, remove, and e
 
 *  Run ‘**npm install -g grunt-cli**’ if you do not yet have the grunt CLI installed. 
 *  Run ‘**npm install**’ for remaining dependencies (list located in _packages.json_. This might take a little while.
-*  By default, your static assets will be called under-runner.extension (under-tasker.css, under-tasker.js, etc). Rename the slug field in _package.json_ to whatever you want your static assets to be named.
+*  By default, your static assets will be called under-tasker.extension (under-tasker.css, under-tasker.js, etc). Rename the slug field in _package.json_ to whatever you want your static assets to be named.
 *  If you plan on using Undertasker for deploying a static site, you will want to install Jekyll. 
 *  If you plan on deploying the site with git, make sure you specify the .git url in _package.json._
 
@@ -42,7 +42,7 @@ Minimizes and uglifies everything in the js directory into a single file.
 *   **grunt build-img**
 Attempts to optimize any JPG/PNG images in _src/img._
 *   **grunt build**
-Build all static assets from src, including less, coffeescript and javascript, as well as tries to optimize any JPG/PNG files in _src/img. _Also sets up the gh-pages directory.
+Build all static assets from src, including less and javascript, as well as tries to optimize any JPG/PNG files in _src/img. _Also sets up the gh-pages directory.
 *   **grunt dist**
 Similar to grunt build, but does not run any tasks related to html. Only static assets in the dist directory are generated, including css, javascript and optimized images. Useful if you’re using the assets for a non static website. 
 *   **grunt deploy**
