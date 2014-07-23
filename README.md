@@ -38,7 +38,7 @@ If there’s a grunt plugin, you can use it with UnderTasker. Add, remove, and e
 *   **grunt build-less**
 Only compiles, autoprefixes, and minifies the CSS. 
 *   **grunt build-js**
-Compiles coffeescript to coffee.js, then minifies and uglifies any additional javascript mentioned in grunt.coffee.
+Minimizes and uglifies everything in the js directory into a single file.
 *   **grunt build-img**
 Attempts to optimize any JPG/PNG images in _src/img._
 *   **grunt build**
