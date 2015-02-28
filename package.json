@@ -1,7 +1,7 @@
 {
   "name": "UnderTasker",
   "slug": "under-tasker",
-  "version": "0.1.5",
+  "version": "0.1.8",
   "description": "Helping you bootstrap your web site/app using a Grunt & Node.js stack",
   "main": "Gruntfile.js",
   "private": true,
@@ -37,11 +37,14 @@
     "markdown": "~0.5.0",
     "time-grunt": "~0.4.0",
     "grunt-git-deploy": "~0.1.1",
-    "grunt-contrib-imagemin": "~0.6.1"
+    "grunt-contrib-imagemin": "~0.8.0",
+    "coffee-script": "",
+    "grunt-contrib-coffee": ""
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/underlost/UnderTasker.git"
+    "url": "https://github.com/underlost/UnderTasker.git",
+    "ssh": "git@github.com:underlost/UnderTasker.git"
   },
   "author": "Tyler Rilling (http://underlost.net/)",
   "license": "MIT",

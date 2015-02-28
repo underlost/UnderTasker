@@ -1,14 +1,17 @@
 # Dependencies
 markdown:         kramdown
-highlighter:      rouge
+highlighter:      true
 
 # Permalinks
 permalink:        pretty
 
 # Server
-source:           src/site
+source:           source/site
 destination:      _gh_pages
-host:             0.0.0.0
+host:             localhost
 port:             9005
 baseurl:          /
 encoding:         UTF-8
+
+gems:
+  - jekyll-sitemap

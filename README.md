@@ -16,7 +16,7 @@ If there’s a grunt plugin, you can use it with UnderTasker. Add, remove, and e
 
 ## Getting Started
 
-<a id="21dc"></a>UnderTasker requires Node.js to be installed. [Consult the Node.js site](http://nodejs.org/download/) for installation directions on your platform.
+UnderTasker requires Node.js to be installed. [Consult the Node.js site](http://nodejs.org/download/) for installation directions on your platform.
 
 *  Run ‘**npm install -g grunt-cli**’ if you do not yet have the grunt CLI installed. 
 *  Run ‘**npm install**’ for remaining dependencies (list located in _packages.json_. This might take a little while.
@@ -46,15 +46,15 @@ Build all static assets from src, including less and javascript, as well as trie
 *   **grunt dist**
 Similar to grunt build, but does not run any tasks related to html. Only static assets in the dist directory are generated, including css, javascript and optimized images. Useful if you’re using the assets for a non static website. 
 *   **grunt deploy**
-The same as _grunt build_, but also deploys your _site_ directory and compiled assets.
+The same as _grunt build_, but also deploys your _gh_pages_ directory and compiled assets.
 
 
 ## What’s Included
 
-All of your work will mostly be done in the _src_ directory. All files from _src_ (except the _site_ directory) will be compiled and copies to the _dist_ directory upon running the specified commands in the next section. Files in the _dist_ directory will be production ready. That is, they will be compiled, minified, and ready to deployed to the web. The compiled _dist_ directory will also be copied to _src/site_, the directory used for publishing to Github Pages. Grunt will clean up and repopulate files in the _dist_ directories as necessary whenever commands are issued.
+All of your work will mostly be done in the _source_ directory. All files from _source_ (except the _gh_pages_ directory) will be compiled and copies to the _dist_ directory upon running the specified commands in the next section. Files in the _dist_ directory will be production ready. That is, they will be compiled, minified, and ready to deployed to the web. The compiled _dist_ directory will also be copied to _source/site_, the directory used for publishing to Github Pages. Grunt will clean up and repopulate files in the _dist_ directories as necessary whenever commands are issued.
   
 ```
-├─ src/
+├─ source/
 │ ├─ img/
 │ ├─ js/
 │ ├─ less/
