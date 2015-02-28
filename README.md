@@ -28,7 +28,7 @@ UnderTasker requires Node.js to be installed. [Consult the Node.js site](http://
 
 *   If necessary, [install Jekyll](http://jekyllrb.com/docs/installation) (requires v2.1.x).
 *   From the root /undertasker directory, run **jekyll serve** in the command line.
-*   Visit [http://localhost:9005](http://localhost:9001/) in your browser.
+*   Visit [http://localhost:9005](http://localhost:9005/) in your browser.
 
 
 ## Commands
