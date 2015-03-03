@@ -274,7 +274,7 @@ module.exports = function (grunt) {
     git_deploy: {
       github: {
         options: {
-          url: '<%= pkg.repository.ssh %>', 
+          url: '<%= pkg.repository.ssh %>',
           branch: 'gh-pages',
           message: 'Deployed with grunt' // Commit message
         },
@@ -290,6 +290,7 @@ module.exports = function (grunt) {
 
   // Coffee build task.
   grunt.registerTask('build-coffee', ['coffee']);
+  grunt.registerTask('brew-coffee', ['coffee']);
 
   // JS distribution task.
   grunt.registerTask('build-js', ['concat', 'uglify']);

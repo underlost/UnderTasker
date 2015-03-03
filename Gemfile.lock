@@ -40,7 +40,7 @@ GEM
     jekyll-sitemap (0.8.0)
     jekyll-watch (1.2.1)
       listen (~> 2.7)
-    kramdown (1.5.0)
+    kramdown (1.6.0)
     liquid (2.6.2)
     listen (2.8.5)
       celluloid (>= 0.15.2)
@@ -53,16 +53,12 @@ GEM
     pygments.rb (0.6.2)
       posix-spawn (~> 0.3.6)
       yajl-ruby (~> 1.2.0)
-    rack (1.6.0)
-    rack-contrib (1.2.0)
-      rack (>= 0.9.1)
-    rack-rewrite (1.5.1)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
     redcarpet (3.2.2)
     safe_yaml (1.0.4)
-    sass (3.4.12)
+    sass (3.4.13)
     timers (4.0.1)
       hitimes
     toml (0.1.2)
@@ -77,5 +73,3 @@ DEPENDENCIES
   jekyll
   jekyll-sitemap
   kramdown
-  rack-contrib
-  rack-rewrite
