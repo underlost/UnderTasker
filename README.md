@@ -25,7 +25,7 @@ UnderTasker requires Node.js to be installed. [Consult the Node.js site](http://
 *  If you plan on using Undertasker for deploying a static site, you will probably want to install something like Jekyll or Jade. 
 *  If you plan on deploying the site with git, make sure you specify the .git url in _package.json. (under repository.ssh)_
 
-### If developing locally:
+### If Using Jekyll:
 
 *   If necessary, [install Jekyll](http://jekyllrb.com/docs/installation) (requires v2.1.x).
 *   From the root /undertasker directory, run `jekyll serve` in the command line. Or if you're using bundler, `bundle exec jekyll serve`.
