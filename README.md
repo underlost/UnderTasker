@@ -20,9 +20,9 @@ If there’s a grunt plugin, you can use it with UnderTasker. Add, remove, and e
 UnderTasker requires Node.js to be installed. [Consult the Node.js site](http://nodejs.org/download/) for installation directions on your platform.
 
 *  Run `npm install -g grunt-cli` if you do not yet have the grunt CLI installed. 
-*  Run `npm install` for remaining dependencies (list located in _packages.json_. This might take a little while.
+*  Run `npm install` for remaining dependencies (list located in _package.json_. This might take a little while.
 *  By default, your static assets will be called under-tasker.extension (under-tasker.css, under-tasker.js, etc). Rename the slug field in _package.json_ to whatever you want your static assets to be named.
-*  If you plan on using Undertasker for deploying a static site, you will probably want to install Jekyll. 
+*  If you plan on using Undertasker for deploying a static site, you will probably want to install something like Jekyll or Jade. 
 *  If you plan on deploying the site with git, make sure you specify the .git url in _package.json. (under repository.ssh)_
 
 ### If developing locally:
@@ -31,30 +31,9 @@ UnderTasker requires Node.js to be installed. [Consult the Node.js site](http://
 *   From the root /undertasker directory, run `jekyll serve` in the command line. Or if you're using bundler, `bundle exec jekyll serve`.
 *   Visit [http://localhost:9005](http://localhost:9005/) in your browser.
 
-
-## Commands
-
-**UnderTasker** can do everything at once, or just certain tasks. 
-
-*   `grunt build-coffee` _(or `grunt brew-coffee` also works)_
-Converts coffeescript files inside _source/coffee_ to _source/js/app.js_. 
-*   `grunt build-less`
-Only compiles, autoprefixes, and minifies the CSS. 
-*   `grunt build-js`
-Minimizes and uglifies everything in the js directory into a single file (including app.js).
-*   `grunt build-img`
-Attempts to optimize any JPG/PNG images in _source/img._
-*   `grunt build`
-Build all static assets from _source_, including less and javascript, as well as tries to optimize any JPG/PNG files in _source/img_. Also sets up the gh-pages directory.
-*   `grunt dist`
-Similar to grunt build, but does not run any tasks related to html. Only static assets in the dist directory are generated, including css, javascript and optimized images. Useful if you’re using the assets for a non static website. 
-*   `grunt deploy`
-Deploys your _gh_pages_ directory and compiled assets to the git repository specified in package.json. This might take a few minutes, depending on the size of your site.
-
-
 ## What’s Included
 
-All of your work will mostly be done in the _source_ directory. All files from _source_ (except the _gh_pages_ directory) will be compiled and copies to the _dist_ directory upon running the specified commands in the next section. Files in the _dist_ directory will be production ready. That is, they will be compiled, minified, and ready to deployed to the web. The compiled _dist_ directory will also be copied to _source/site_, the directory used for publishing to Github Pages. Grunt will clean up and repopulate files in the _dist_ directories as necessary whenever commands are issued.
+All of your work will mostly be done in the _source_ directory. All files from _source_ will be compiled and copies to the _dist_ directory upon running the specified commands in the next section. Files in the _dist_ directory will be production ready. That is, they will be compiled, minified, and ready to deployed to the web. The compiled _dist_ directory will also be copied to _source/site_, the directory used for publishing to Github Pages. Grunt will clean up and repopulate files in the _dist_ directories as necessary whenever commands are issued.
   
 ```
 ├─ source/
@@ -81,10 +60,28 @@ Just about everything happens in Gruntfile.js. If you want to make modifications
 
 Bare minimal css elements from Bootstrap (in the form of LESS) are also included to help you get started. These files are in no way required and can be deleted or edited however you want.
 
+## Commands
+
+**UnderTasker** can do everything at once, or just certain tasks. 
+
+*   `grunt build-coffee` _(or `grunt brew-coffee` also works)_
+Converts coffeescript files inside _source/coffee_ to _source/js/app.js_. 
+*   `grunt build-less`
+Only compiles, autoprefixes, and minifies the CSS. 
+*   `grunt build-js`
+Minimizes and uglifies everything in the js directory into a single file (including app.js).
+*   `grunt build-img`
+Attempts to optimize any JPG/PNG images in _source/img._
+*   `grunt build`
+Build all static assets from _source_, including less and javascript, as well as tries to optimize any JPG/PNG files in _source/img_. Also sets up the *_gh_pages* directory.
+*   `grunt dist`
+Similar to grunt build, but does not run any tasks related to html. Only static assets in the dist directory are generated, including css, javascript and optimized images. Useful if you’re using the assets for a non static website. 
+*   `grunt deploy`
+Builds, validates and deploys your *_gh_pages* directory and compiled assets to the git repository specified in package.json. This might take a few minutes, depending on the size of your site and connection speed.
 
 ## Example
 
-To see it in action, visit the [**UnderTasker**](http://tyler.codes/UnderTasker) site. To view the source, or to clone the git repo, check out [https://github.com/underlost/UnderTasker](https://github.com/underlost/UnderTasker). I also built [**tyler.codes**](http://tyler.codes/) [(source)](https://github.com/underlost/underlost.github.io) and [**underlost.net**](http://underlost.net/) [(source)](https://github.com/underlost/underlost.net) with it.
+To see it in action, visit the [**UnderTasker**](http://tyler.codes/UnderTasker) site. To view the source, or to clone the git repo, check out [https://github.com/underlost/UnderTasker](https://github.com/underlost/UnderTasker). I also built [**tyler.codes**](http://tyler.codes/) [(source)](https://github.com/underlost/underlost.github.io) and [**underlost.net**](http://underlost.net/) [(source)](https://github.com/underlost/underlost.net) with UnderTasker.
 
 
 ## Support

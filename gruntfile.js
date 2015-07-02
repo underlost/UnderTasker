@@ -240,20 +240,17 @@ module.exports = function (grunt) {
       site: {}
     },
 
-    validation: {
+    htmllint: {
       options: {
-        charset: 'utf-8',
-        doctype: 'HTML5',
-        failHard: true,
-        reset: true,
-        relaxerror: [
+        ignore: [
+          'Attribute "autocomplete" not allowed on element "button" at this point.',
+          'Attribute "autocomplete" not allowed on element "input" at this point.',
           'Bad value X-UA-Compatible for attribute http-equiv on element meta.',
-          'Element img is missing required attribute src.'
+          'Element "img" is missing required attribute "src".',
+          'A “meta” element with an “http-equiv” attribute whose value is “X-UA-Compatible” must have a “content” attribute with the value “IE=edge”.'
         ]
       },
-      files: {
-        src: '_gh_pages/**/*.html'
-      }
+      src: '_gh_pages/**/*.html'
     },
 
     watch: {
@@ -303,7 +300,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build-css', ['less-compile', 'autoprefixer', 'usebanner', 'csscomb', 'less:minify', 'cssmin']);
 
   // HTML build/validation site task
-  grunt.registerTask('build-site', ['jekyll', 'validation']);
+  grunt.registerTask('build-site', ['jekyll:site', 'htmllint']);
 
   // Git Deploy task
   grunt.registerTask('git-deploy', ['git_deploy:github']);
@@ -312,12 +309,12 @@ module.exports = function (grunt) {
   grunt.registerTask('test', ['build-css', 'csslint', 'jshint', 'jscs', 'qunit']);
 
   // Build static assets and HTML
-  grunt.registerTask('build', ['clean', 'build-css', 'build-js', 'build-img', 'build-site', 'copy:fonts', 'copy:dist']);
+  grunt.registerTask('build', ['clean', 'build-css', 'build-js', 'build-img', 'copy:fonts', 'copy:dist', 'build-site']);
 
   // Only build static assets, not html
   grunt.registerTask('dist', ['clean', 'build-css', 'build-js', 'build-img', 'copy:fonts', 'copy:dist']);
 
   // Full Deploy
-  grunt.registerTask('deploy', ['git-deploy']);
+  grunt.registerTask('deploy', ['build', 'git-deploy']);
 
 };
