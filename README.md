@@ -21,8 +21,9 @@ If there’s a Gulp plugin, you can use it with UnderTasker. Add, remove, and ex
 UnderTasker requires Node.js to be installed. [Consult the Node.js site](http://nodejs.org/download/) for installation directions on your platform.
 
 *  Run `npm install` for dependencies (list located in _package.json_. This might take a little while.
+*  Run `bower install` to download framework dependencies.
 *  By default, your static assets will be called site.extension (site.css, site.js, etc).
-*  If you plan on using Undertasker for deploying a static site, you will probably want to install something like Jekyll or Jade. 
+*  If you plan on using UnderTasker for deploying a static site, you will probably want to install something like Jekyll or Jade. 
 *  If you plan on deploying the site with git, make sure you specify the .git url in _package.json. (under repository.ssh)_
 
 ### If Using Jekyll:
@@ -52,6 +53,7 @@ All of your work will mostly be done in the _source_ directory. All files from _
 │ └─ index.html
 ├─ _config.yml
 ├─ gulpfile.js
+├─ bower.js
 └─ package.json
 ```
 
