@@ -1,3 +1,7 @@
+### V2.0.0
+* Switched from Grunt to Gulp.
+* Added support for Bower.
+
 ### V0.1.9
 * Fixed a few errors in README.md that caused confusion.
 * Replaced grunt-html validation package with grunt-html.

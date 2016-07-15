@@ -1,0 +1,34 @@
+{
+  "name": "UnderTasker",
+  "description": "Helping you bootstrap your web site/app using a Grunt & Node.js stack",
+  "keywords": [
+    "css",
+    "js",
+    "scss",
+    "mobile-first",
+    "responsive",
+    "front-end",
+    "framework",
+    "web",
+    "static",
+    "jekyll"
+  ],
+  "version": "0.2.0",
+  "homepage": "http://tyler.codes/UnderTasker",
+  "authors": [
+    "Tyer Rilling <tyler@underlost.net"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "1.9.1 - 2",
+    "bootstrap-sass": "3.3.6",
+    "components-font-awesome": "*"
+  }
+}
