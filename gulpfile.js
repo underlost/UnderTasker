@@ -6,6 +6,7 @@
 
 // grab our packages
 var gulp   = require('gulp'),
+    child = require('child_process');
     jshint = require('gulp-jshint');
     sass = require('gulp-sass');
     sourcemaps = require('gulp-sourcemaps');
@@ -139,6 +140,25 @@ gulp.task('bower', function() {
     return bower({ cmd: 'update'});
 });
 
+gulp.task('github', function() {
+    runSequence('build', callback);
+    return gulp.src('./source/**/*')
+    .pipe(ghPages());
+});
+
+gulp.task('jekyll', function() {
+    const jekyll = child.spawn('jekyll', ['serve', '--watch', '--incremental', '--drafts' ]);
+
+    const jekyllLogger = (buffer) => {
+        buffer.toString()
+        .split(/\n/)
+        .forEach((message) => gutil.log('Jekyll: ' + message));
+    };
+
+    jekyll.stdout.on('data', jekyllLogger);
+    jekyll.stderr.on('data', jekyllLogger);
+});
+
 // Default build task
 gulp.task('build', function(callback) {
     runSequence(
@@ -147,12 +167,6 @@ gulp.task('build', function(callback) {
         ['shrink-js', 'copy-bower'],
         ['copy-dist', ], callback
     );
-});
-
-gulp.task('github', function() {
-    runSequence('build', callback);
-    return gulp.src('./source/**/*')
-    .pipe(ghPages());
 });
 
 gulp.task('deploy', function() {
