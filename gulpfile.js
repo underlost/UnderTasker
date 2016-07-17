@@ -24,6 +24,13 @@ var gulp   = require('gulp'),
     imagemin = require('gulp-imagemin');
     ghPages = require('gulp-gh-pages');
     git = require('gulp-deploy-git');
+    browserSync = require('browser-sync');
+
+    var messages = {
+        jekyllBuild: '<span style="color: grey">Running:</span> $ jekyll build'
+    };
+
+    var jekyll = process.platform === 'win32' ? 'jekyll.bat' : 'jekyll';
 
 // Cleans the web dist folder
 gulp.task('clean', function (cb) {
@@ -67,6 +74,18 @@ gulp.task('copy-bower', function() {
 
     gulp.src('bower_components/bootstrap-sass/assets/stylesheets/**/*.*')
     .pipe(gulp.dest('source/sass/bootstrap'));
+});
+
+// Runs Bower update
+gulp.task('bower-update', function() {
+    return bower({ cmd: 'update'});
+});
+
+// Bower tasks
+gulp.task('bower', function(callback) {
+    runSequence(
+        'bower-update', 'copy-bower', callback
+    );
 });
 
 // Compile coffeescript to JS
@@ -126,7 +145,7 @@ gulp.task('shrink-js', function() {
 
 // Default Javascript build task
 gulp.task('build-js', function(callback) {
-    runSequence('concat-js', callback);
+    runSequence('concat-js', 'shrink-js', callback);
 });
 
 // configure which files to watch and what tasks to use on file changes
@@ -134,33 +153,30 @@ gulp.task('watch', function() {
     gulp.watch('source/coffee/**/*.js', ['brew-coffee', 'build-js', 'copy-dist']);
     gulp.watch('source/js/**/*.js', ['build-js', 'copy-dist']);
     gulp.watch('source/sass/**/*.scss', ['build-css', 'copy-dist']);
-});
-
-gulp.task('bower-update', function() {
-    return bower({ cmd: 'update'});
+    gulp.watch(['source/site/*.html', 'source/site/_layouts/*.html'], ['jekyll-rebuild']);
 });
 
 gulp.task('github-deploy', function(callback) {
-    return gulp.src('./_gh_pages/**/*').pipe(ghPages());
+    return gulp.src('./.publish/**/*').pipe(ghPages());
 });
 
-gulp.task('jekyll', function() {
-    const jekyll = child.spawn('jekyll', [
-        'serve',
-        '--watch',
-        '--incremental',
-        '--drafts',
-        '--destination _gh_pages'
-     ]);
+//Jekyll Tasks
+gulp.task('jekyll-build', function (done) {
+    browserSync.notify(messages.jekyllBuild);
+    return child.spawn( jekyll , ['build'], {stdio: 'inherit'})
+        .on('close', done);
+});
 
-    const jekyllLogger = (buffer) => {
-        buffer.toString()
-        .split(/\n/)
-        .forEach((message) => gutil.log('Jekyll: ' + message));
-    };
+gulp.task('jekyll-rebuild', ['jekyll-build'], function () {
+    browserSync.reload();
+});
 
-    jekyll.stdout.on('data', jekyllLogger);
-    jekyll.stderr.on('data', jekyllLogger);
+gulp.task('browser-sync', ['build-css', 'jekyll-build'], function() {
+    browserSync({
+        server: {
+            baseDir: '.publish'
+        }
+    });
 });
 
 // Default build task
@@ -168,14 +184,7 @@ gulp.task('build', function(callback) {
     runSequence(
         'copy-fonts', 'imagemin',
         ['build-css', 'build-js'],
-        ['shrink-js',], ['copy-dist', ], callback
-    );
-});
-
-// Bower tasks
-gulp.task('bower', function(callback) {
-    runSequence(
-        'bower-update', 'copy-bower', callback
+        ['copy-dist', ], callback
     );
 });
 
@@ -195,3 +204,6 @@ gulp.task('deploy', function() {
         message: 'Deployed with UnderTasker.'
     }));
 });
+
+// Default task will build the jekyll site, launch BrowserSync & watch files.
+gulp.task('default', ['browser-sync', 'watch']);

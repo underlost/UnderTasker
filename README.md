@@ -14,7 +14,7 @@ Out of the box, UnderTasker uses the following:
 *   [gulp-gh-pages](https://www.npmjs.com/package/gulp-gh-pages) (Deploy easily to Github)
 *   [Jekyll](http://jekyllrb.com/) (For compiling html)
 
-If there’s a Gulp plugin, you can use it with UnderTasker. Add, remove, and extend to your heart’s content. When you&#39;re finished, you can even publish your static site to Github Pages with a single gulp command.
+If there’s a Gulp plugin, you can (probably) use it with UnderTasker. Add, remove, and extend to your heart’s content. When you&#39;re finished, you can even publish your static site to Github Pages with a single gulp command.
 
 ## Getting Started
 
@@ -78,13 +78,21 @@ Attempts to optimize any JPG/PNG/GIF images in _source/img._
 *   `guild build`
 Build all static assets from _source_, including sass and javascript, as well as tries to optimize any JPG/PNG files in _source/img_.
 *   `gulp deploy`
-Builds, validates and deploys your *_gh_pages* directory and compiled assets to the git repository specified. This might take a few minutes, depending on the size of your site and connection speed.
+Builds, validates and deploys your *.publish* directory and compiled assets to the git repository specified. This might take a few minutes, depending on the size of your site and connection speed.
 *   `gulp github`
-Runs `gulp build` and attempts to deploy to specified to your project's Github Pages.
+Runs `gulp build` and attempts to deploy to your project's Github Pages.
 *   `gulp clean`
 Cleans out (deletes) the dist folders.
 *   `gulp jekyll`
-Runs jekyll and builds the site into _gh_pages
+Runs jekyll and builds the site into *.publish*.
+*   `gulp watch`
+Watches for any css/HTML changes as well as changes to HTML in site/source, and updates the site accordingly.
+
+## Usage
+
+UnderTasker can be used for a few different things. If you're looking to use it to develop a static website, you just need to run `gulp`. UnderTasker users BrowserSync, which allows you to make edits to the CSS, Javascript, and HTML and it will automatically compile and update in the browser for you.
+
+If you're not interested in compiling the HTML, `gulp watch` will act similar, and update CSS/JS accordingly. If you're looking to use this as a way to build/minify static files to use with your web app, it also has you covered. Just run `gulp build` and all of your compiled, minified and uglified static files can be found in `./dist`.
 
 ## Example
 

@@ -1,6 +1,13 @@
+### V0.2.3
+* Added BrowserSync.
+* Improved jekyll build process and support for Jekyll on Windows (untested).
+* `Gulp Watch` will also now watch .html files in `source/site` similar to css building. No need to run a second command for building Jekyll anymore.
+* Updated README to reflect changes.
+* There's now a default gulp command! Running just `gulp` will attempt to build existing assets, launch BrowserSync, and monitor any changes to your CSS/JS/HTML files. Your browser window will then be updated as changes are made to the files.
+
 ### V0.2.2
 * Fixed a few typos in the change log.
-* Better jekyll support.
+* Better Jekyll support.
 
 ### V0.2.0
 * Switched from Grunt to Gulp.

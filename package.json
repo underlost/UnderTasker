@@ -1,8 +1,8 @@
 {
   "name": "UnderTasker",
   "slug": "under-tasker",
-  "version": "0.2.2",
-  "description": "Helping you bootstrap your web site/app using a Grunt & Node.js stack",
+  "version": "0.2.3",
+  "description": "Helping you bootstrap your web site/app using a Gulp, Jekyll & Node.js stack",
   "main": "gulpfile.js",
   "scripts": {
     "start": "gulp",
@@ -34,7 +34,8 @@
     "ecstatic": "1.1.3",
     "gulp-bower": "0.0.10",
     "bower": "1.6.5",
-    "jshint": ">=2.0"
+    "jshint": ">=2.0",
+    "browser-sync": "^1.3.7"
   },
   "repository": {
     "type": "git",

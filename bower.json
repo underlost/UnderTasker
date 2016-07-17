@@ -1,6 +1,6 @@
 {
   "name": "UnderTasker",
-  "description": "Helping you bootstrap your web site/app using a Grunt & Node.js stack",
+  "description": "Helping you bootstrap your web site/app using a Gulp, Jekyll & Node.js stack",
   "keywords": [
     "css",
     "js",
@@ -11,9 +11,10 @@
     "framework",
     "web",
     "static",
-    "jekyll"
+    "jekyll",
+    "BrowserSync"
   ],
-  "version": "0.2.2",
+  "version": "0.2.3",
   "homepage": "http://tyler.codes/UnderTasker",
   "authors": [
     "Tyer Rilling <tyler@underlost.net"
@@ -23,6 +24,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
+    ".publish"
     "test",
     "tests"
   ],
