@@ -1,4 +1,8 @@
-### V2.0.0
+### V0.2.2
+* Fixed a few typos in the change log.
+* Better jekyll support.
+
+### V0.2.0
 * Switched from Grunt to Gulp.
 * Added support for Bower.
 

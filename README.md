@@ -21,7 +21,7 @@ If there’s a Gulp plugin, you can use it with UnderTasker. Add, remove, and ex
 UnderTasker requires Node.js to be installed. [Consult the Node.js site](http://nodejs.org/download/) for installation directions on your platform.
 
 *  Run `npm install` for dependencies (list located in _package.json_. This might take a little while.
-*  Run `bower install` to download framework dependencies.
+*  Run `gulp bower` to download framework dependencies, such as Bootstrap and Font Awesome.
 *  By default, your static assets will be called site.extension (site.css, site.js, etc).
 *  If you plan on using UnderTasker for deploying a static site, you will probably want to install something like Jekyll or Jade. 
 *  If you plan on deploying the site with git, make sure you specify the .git url in _package.json. (under repository.ssh)_
@@ -65,6 +65,8 @@ Bare minimal css elements from Bootstrap (in the form of LESS) are also included
 
 **UnderTasker** can do everything at once, or just certain tasks. 
 
+*   `gulp bower`
+Downloads/reloads bower packages. This should typically only ever be used at the start of setting up a project, or to redownload any components such as Bootstrap.
 *   `gulp brew-coffee`
 Converts coffeescript files inside _source/coffee_ to _source/js/app.js_. 
 *   `gulp build-css`
@@ -81,6 +83,8 @@ Builds, validates and deploys your *_gh_pages* directory and compiled assets to 
 Runs `gulp build` and attempts to deploy to specified to your project's Github Pages.
 *   `gulp clean`
 Cleans out (deletes) the dist folders.
+*   `gulp jekyll`
+Runs jekyll and builds the site into _gh_pages
 
 ## Example
 

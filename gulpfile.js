@@ -131,23 +131,27 @@ gulp.task('build-js', function(callback) {
 
 // configure which files to watch and what tasks to use on file changes
 gulp.task('watch', function() {
-    gulp.watch('source/coffee/**/*.js', ['brew-coffee']);
-    gulp.watch('source/js/**/*.js', ['build-js']);
-    gulp.watch('source/sass/**/*.scss', ['build-css']);
+    gulp.watch('source/coffee/**/*.js', ['brew-coffee', 'build-js', 'copy-dist']);
+    gulp.watch('source/js/**/*.js', ['build-js', 'copy-dist']);
+    gulp.watch('source/sass/**/*.scss', ['build-css', 'copy-dist']);
 });
 
-gulp.task('bower', function() {
+gulp.task('bower-update', function() {
     return bower({ cmd: 'update'});
 });
 
-gulp.task('github', function() {
-    runSequence('build', callback);
-    return gulp.src('./source/**/*')
-    .pipe(ghPages());
+gulp.task('github-deploy', function(callback) {
+    return gulp.src('./_gh_pages/**/*').pipe(ghPages());
 });
 
 gulp.task('jekyll', function() {
-    const jekyll = child.spawn('jekyll', ['serve', '--watch', '--incremental', '--drafts' ]);
+    const jekyll = child.spawn('jekyll', [
+        'serve',
+        '--watch',
+        '--incremental',
+        '--drafts',
+        '--destination _gh_pages'
+     ]);
 
     const jekyllLogger = (buffer) => {
         buffer.toString()
@@ -162,13 +166,27 @@ gulp.task('jekyll', function() {
 // Default build task
 gulp.task('build', function(callback) {
     runSequence(
-        'copy-fonts', 'copy-bower', 'imagemin', 'bower',
+        'copy-fonts', 'imagemin',
         ['build-css', 'build-js'],
-        ['shrink-js', 'copy-bower'],
-        ['copy-dist', ], callback
+        ['shrink-js',], ['copy-dist', ], callback
     );
 });
 
+// Bower tasks
+gulp.task('bower', function(callback) {
+    runSequence(
+        'bower-update', 'copy-bower', callback
+    );
+});
+
+// Deploy to github
+gulp.task('github', function(callback) {
+    runSequence(
+        ['build'], ['jekyll'], 'github-deploy', callback
+    );
+});
+
+// Deploy to a .git repo
 gulp.task('deploy', function() {
     return gulp.src('./source/**/*')
     .pipe(git({
