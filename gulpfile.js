@@ -25,6 +25,7 @@ var gulp   = require('gulp'),
     ghPages = require('gulp-gh-pages');
     git = require('gulp-deploy-git');
     browserSync = require('browser-sync');
+    argv = require('minimist')(process.argv.slice(2));
 
     var messages = {
         jekyllBuild: '<span style="color: grey">Running:</span> $ jekyll build'
@@ -156,22 +157,22 @@ gulp.task('watch', function() {
     gulp.watch(['source/site/*.html', 'source/site/_layouts/*.html'], ['jekyll-rebuild']);
 });
 
-gulp.task('github-deploy', function(callback) {
-    return gulp.src('./.publish/**/*').pipe(ghPages());
+gulp.task('github-deploy', function () {
+    return gulp.src("./.publish/**/*").pipe(ghPages({clean: !!argv.clean}));
 });
 
 //Jekyll Tasks
-gulp.task('jekyll-build', function (done) {
+gulp.task('jekyll', function (done) {
     browserSync.notify(messages.jekyllBuild);
     return child.spawn( jekyll , ['build'], {stdio: 'inherit'})
         .on('close', done);
 });
 
-gulp.task('jekyll-rebuild', ['jekyll-build'], function () {
+gulp.task('jekyll-rebuild', ['jekyll'], function () {
     browserSync.reload();
 });
 
-gulp.task('browser-sync', ['build-css', 'jekyll-build'], function() {
+gulp.task('browser-sync', ['build-css', 'jekyll'], function() {
     browserSync({
         server: {
             baseDir: '.publish'
@@ -200,7 +201,7 @@ gulp.task('deploy', function() {
     return gulp.src('./source/**/*')
     .pipe(git({
         repository: 'https://github.com/underlost/UnderTasker.git',
-        branches: ['gh_pages'],
+        branches:   ['gh-pages'],
         message: 'Deployed with UnderTasker.'
     }));
 });

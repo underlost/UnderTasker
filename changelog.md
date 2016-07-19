@@ -1,3 +1,6 @@
+### V0.2.4
+* Force `Gulp Github` to always push to gh-pages regardless.
+
 ### V0.2.3
 * Added BrowserSync.
 * Improved jekyll build process and support for Jekyll on Windows (untested).
