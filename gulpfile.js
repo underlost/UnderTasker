@@ -26,6 +26,7 @@ var gulp   = require('gulp'),
     git = require('gulp-deploy-git');
     browserSync = require('browser-sync');
     argv = require('minimist')(process.argv.slice(2));
+    $ = require('gulp-load-plugins')();
 
     var messages = {
         jekyllBuild: '<span style="color: grey">Running:</span> $ jekyll build'
@@ -34,8 +35,10 @@ var gulp   = require('gulp'),
     var jekyll = process.platform === 'win32' ? 'jekyll.bat' : 'jekyll';
 
 // Cleans the web dist folder
-gulp.task('clean', function (cb) {
-    del(['dist/**/*', 'source/site/dist/**/*'], cb);
+gulp.task('clean', function () {
+    del(['dist/']);
+    del(['source/site/dist/**/*']);
+    del(['.publish']);
 });
 
 // Copy images
@@ -157,9 +160,23 @@ gulp.task('watch', function() {
     gulp.watch(['source/site/*.html', 'source/site/_layouts/*.html'], ['jekyll-rebuild']);
 });
 
+
+// Deploy to GitHub Pages
 gulp.task('github-deploy', function () {
-    return gulp.src("./.publish/**/*").pipe(ghPages({clean: !!argv.clean}));
+
+  // Remove temp folder created by gulp-gh-pages
+  var repoPath = require('path').join(require('os').tmpdir(), 'tmpRepo');
+  $.util.log('Delete ' + $.util.colors.magenta(repoPath));
+  del.sync(repoPath, {force: true});
+
+  return gulp.src('./.publish/**/*')
+    .pipe($.ghPages({
+      remoteUrl: 'https://github.com/underlost/UnderTasker.git',
+      branch: 'gh-pages'
+    }));
 });
+
+
 
 //Jekyll Tasks
 gulp.task('jekyll', function (done) {
@@ -192,7 +209,7 @@ gulp.task('build', function(callback) {
 // Deploy to github
 gulp.task('github', function(callback) {
     runSequence(
-        ['build'], ['jekyll'], 'github-deploy', callback
+        ['clean', 'build'], ['jekyll'], 'github-deploy', callback
     );
 });
 

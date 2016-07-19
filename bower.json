@@ -14,7 +14,7 @@
     "jekyll",
     "BrowserSync"
   ],
-  "version": "0.2.4",
+  "version": "0.2.5",
   "homepage": "http://tyler.codes/UnderTasker",
   "authors": [
     "Tyer Rilling <tyler@underlost.net"

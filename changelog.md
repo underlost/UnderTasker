@@ -1,3 +1,6 @@
+### V0.2.5
+* Fixed `gulp clean` task.
+
 ### V0.2.4
 * Force `Gulp Github` to always push to gh-pages regardless.
 
