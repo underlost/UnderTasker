@@ -61,7 +61,7 @@ gulp.task('copy-fonts', function() {
 
 // Minify Images
 gulp.task('imagemin', function() {
-    gulp.src('source/img/**/*.{jpg,png,gif}')
+    gulp.src('source/img/**/*.{jpg,png,gif,ico}')
 	.pipe(imagemin())
 	.pipe(gulp.dest('dist/img'))
 });
