@@ -13,6 +13,7 @@ var gulp   = require('gulp'),
     concat = require('gulp-concat');
     autoprefixer = require('gulp-autoprefixer');
     minifyCSS = require('gulp-minify-css');
+    cleanCSS = require('gulp-clean-css');
     rename = require('gulp-rename'); // to rename any file
     uglify = require('gulp-uglify');
     del = require('del');
@@ -110,7 +111,7 @@ gulp.task('build-css', function() {
         cascade: false
     }))
     .pipe(gulp.dest('dist/css'))
-    .pipe(minifyCSS())
+    .pipe(cleanCSS({compatibility: 'ie8'}))
     .pipe(rename('site.min.css'))
     .pipe(gulp.dest('dist/css'))
     .on('error', sass.logError)
