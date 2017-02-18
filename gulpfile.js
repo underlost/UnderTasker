@@ -1,6 +1,6 @@
 /*!
  * UnderTasker
- * Copyright 2016 Tyler Rilling
+ * Copyright 2017 Tyler Rilling
  * Licensed under MIT (https://github.com/underlost/Undertasker/blob/master/LICENSE)
  */
 
@@ -12,7 +12,6 @@ var gulp   = require('gulp'),
     sourcemaps = require('gulp-sourcemaps');
     concat = require('gulp-concat');
     autoprefixer = require('gulp-autoprefixer');
-    minifyCSS = require('gulp-minify-css');
     cleanCSS = require('gulp-clean-css');
     rename = require('gulp-rename'); // to rename any file
     uglify = require('gulp-uglify');
@@ -32,7 +31,6 @@ var gulp   = require('gulp'),
     var messages = {
         jekyllBuild: '<span style="color: grey">Running:</span> $ jekyll build'
     };
-
     var jekyll = process.platform === 'win32' ? 'jekyll.bat' : 'jekyll';
 
 // Cleans the web dist folder
@@ -73,10 +71,8 @@ gulp.task('copy-bower', function() {
         'bower_components/jquery/dist/jquery.min.js',
     ])
     .pipe(gulp.dest('dist/js/lib'));
-
     gulp.src('bower_components/components-font-awesome/scss/**/*.*')
     .pipe(gulp.dest('source/sass/font-awesome'));
-
     gulp.src('bower_components/bootstrap-sass/assets/stylesheets/**/*.*')
     .pipe(gulp.dest('source/sass/bootstrap'));
 });
@@ -103,15 +99,13 @@ gulp.task('brew-coffee', function() {
 // CSS Build Task
 gulp.task('build-css', function() {
   return gulp.src('source/sass/site.scss')
-    .pipe(sourcemaps.init())  // Process the original sources
     .pipe(sass().on('error', sass.logError))
-    .pipe(sourcemaps.write()) // Add the map to modified source.
     .pipe(autoprefixer({
         browsers: ['last 2 versions'],
         cascade: false
     }))
     .pipe(gulp.dest('dist/css'))
-    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(cleanCSS({compatibility: 'ie9'}))
     .pipe(rename('site.min.css'))
     .pipe(gulp.dest('dist/css'))
     .on('error', sass.logError)
@@ -125,7 +119,6 @@ gulp.task('concat-js', function() {
         'source/js/site.js',
         // Coffeescript
         'source/js/coffee/*.*',
-
     ])
     .pipe(sourcemaps.init())
         .pipe(concat('site.js'))
@@ -164,20 +157,18 @@ gulp.task('watch', function() {
 
 // Deploy to GitHub Pages
 gulp.task('github-deploy', function () {
+    del(['./.publish/.git']);
+    var repoPath = require('path').join(require('os').tmpdir(), 'tmpRepo');
+    $.util.log('Delete ' + $.util.colors.magenta(repoPath));
+    del.sync(repoPath, {force: true});
 
-  // Remove temp folder created by gulp-gh-pages
-  var repoPath = require('path').join(require('os').tmpdir(), 'tmpRepo');
-  $.util.log('Delete ' + $.util.colors.magenta(repoPath));
-  del.sync(repoPath, {force: true});
-
-  return gulp.src('./.publish/**/*')
+    return gulp.src('./.publish/**/*')
     .pipe($.ghPages({
-      remoteUrl: 'https://github.com/underlost/UnderTasker.git',
-      branch: 'gh-pages'
+        remoteUrl: 'https://github.com/underlost/UnderTasker.git',
+        branch: 'gh-pages'
     }));
+    del(['./.publish/.git']);
 });
-
-
 
 //Jekyll Tasks
 gulp.task('jekyll', function (done) {
@@ -190,14 +181,6 @@ gulp.task('jekyll-rebuild', ['jekyll'], function () {
     browserSync.reload();
 });
 
-gulp.task('browser-sync', ['build-css', 'jekyll'], function() {
-    browserSync({
-        server: {
-            baseDir: '.publish'
-        }
-    });
-});
-
 // Default build task
 gulp.task('build', function(callback) {
     runSequence(
@@ -205,6 +188,14 @@ gulp.task('build', function(callback) {
         ['build-css', 'build-js'],
         ['copy-dist', ], callback
     );
+});
+
+gulp.task('browser-sync', ['build', 'jekyll'], function() {
+    browserSync({
+        server: {
+            baseDir: '.publish'
+        }
+    });
 });
 
 // Deploy to github

@@ -1,3 +1,12 @@
+### V0.2.6
+#### Feb 18 2017
+* Updated to Ruby 2.4
+* Updated NPM packages
+* Updated Gems
+* Fixed Github build task
+* Added david-dm and travis-ci badges
+
+
 ### V0.2.5
 * Fixed `gulp clean` task.
 

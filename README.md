@@ -1,3 +1,7 @@
+[![dependencies Status](https://david-dm.org/underlost/undertasker/status.svg)](https://david-dm.org/underlost/undertasker)
+[![Build Status](https://travis-ci.org/underlost/undertasker.svg?branch=master)](https://travis-ci.org/underlost/undertasker)
+
+
 # UnderTasker
 
 I built UnderTasker to help assist in developing and testing websites. More specifically, I wrote it to help develop [underlost.net](underlost.net) and [A Life Well Played](alifewellplayed.com), but have since used it for other projects. It’s mainly designed to help generate production ready static assets from their source files, as well as quickly publish sites to [Github Pages](pages.github.com). Think of it as a sort of swiss army knife for your websites. 

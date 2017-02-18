@@ -14,7 +14,7 @@
     "jekyll",
     "BrowserSync"
   ],
-  "version": "0.2.5",
+  "version": "0.2.6",
   "homepage": "http://tyler.codes/UnderTasker",
   "authors": [
     "Tyer Rilling <tyler@underlost.net"
@@ -30,7 +30,7 @@
   ],
   "dependencies": {
     "jquery": "1.9.1 - 2",
-    "bootstrap-sass": "3.3.6",
+    "bootstrap-sass": "3.3.7",
     "components-font-awesome": "*"
   }
 }
