@@ -115,6 +115,7 @@ gulp.task('build-css', function() {
 gulp.task('concat-js', function() {
     return gulp.src([
         // Bower components
+        'bower_components/jquery/dist/jquery.js',
         'bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
         'source/js/site.js',
         // Coffeescript
