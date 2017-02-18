@@ -52,12 +52,13 @@ All of your work will mostly be done in the _source_ directory. All files from _
 │ ├─ img/
 │ ├─ js/
 │ └─ css/
-├─ _gh-pages/
+├─ .publish/
 │ ├─ dist/
 │ └─ index.html
 ├─ _config.yml
 ├─ gulpfile.js
-├─ bower.js
+├─ bower.json
+├─ Gemfile
 └─ package.json
 ```
 
