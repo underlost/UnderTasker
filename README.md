@@ -1,5 +1,5 @@
 [![dependencies Status](https://david-dm.org/underlost/undertasker/status.svg)](https://david-dm.org/underlost/undertasker)
-[![Build Status](https://travis-ci.org/underlost/undertasker.svg?branch=master)](https://travis-ci.org/underlost/undertasker)
+[![Build Status](https://travis-ci.org/underlost/UnderTasker.svg?branch=master)](https://travis-ci.org/underlost/UnderTasker)
 
 
 # UnderTasker
