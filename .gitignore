@@ -35,9 +35,6 @@ nbproject
 # Folders to ignore
 node_modules
 _gh_pages
-dist
+/dist
 bower_components
-source/site/dist
-source/sass/bootstrap
-source/sass/font-awesome
 .publish

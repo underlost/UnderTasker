@@ -35,15 +35,16 @@ var gulp   = require('gulp'),
 
 // Cleans the web dist folder
 gulp.task('clean', function () {
-    del(['dist/']);
-    del(['source/site/dist/**/*']);
-    del(['.publish']);
+    return del([
+        'dist/',
+        'source/site/dist/**/*',
+        '.publish'
+    ]);
 });
 
 // Copy images
 gulp.task('copy-dist', function() {
-    gulp.src('dist/**/*.*')
-    .pipe(gulp.dest('source/site/dist'));
+    return gulp.src('dist/**/*.*').pipe(gulp.dest('source/site/dist'));
 });
 
 // Copy fonts task
@@ -60,17 +61,13 @@ gulp.task('copy-fonts', function() {
 
 // Minify Images
 gulp.task('imagemin', function() {
-    gulp.src('source/img/**/*.{jpg,png,gif,ico}')
+    return gulp.src('source/img/**/*.{jpg,png,gif,ico}')
 	.pipe(imagemin())
 	.pipe(gulp.dest('dist/img'))
 });
 
 // Copy Bower components
 gulp.task('copy-bower', function() {
-    gulp.src([
-        'bower_components/jquery/dist/jquery.min.js',
-    ])
-    .pipe(gulp.dest('dist/js/lib'));
     gulp.src('bower_components/components-font-awesome/scss/**/*.*')
     .pipe(gulp.dest('source/sass/font-awesome'));
     gulp.src('bower_components/bootstrap-sass/assets/stylesheets/**/*.*')
@@ -91,7 +88,7 @@ gulp.task('bower', function(callback) {
 
 // Compile coffeescript to JS
 gulp.task('brew-coffee', function() {
-    gulp.src('source/coffee/*.coffee')
+    return gulp.src('source/coffee/*.coffee')
         .pipe(coffee({bare: true}).on('error', gutil.log))
         .pipe(gulp.dest('source/js/coffee/'))
 });
@@ -137,9 +134,9 @@ gulp.task('jshint', function() {
 // Shrinks all the js
 gulp.task('shrink-js', function() {
     return gulp.src('dist/js/site.js')
-    .pipe(uglify())
-    .pipe(rename('site.min.js'))
-    .pipe(gulp.dest('dist/js'))
+      .pipe(uglify())
+      .pipe(rename('site.min.js'))
+      .pipe(gulp.dest('dist/js'))
 });
 
 // Default Javascript build task
@@ -158,17 +155,15 @@ gulp.task('watch', function() {
 
 // Deploy to GitHub Pages
 gulp.task('github-deploy', function () {
-    del(['./.publish/.git']);
     var repoPath = require('path').join(require('os').tmpdir(), 'tmpRepo');
     $.util.log('Delete ' + $.util.colors.magenta(repoPath));
     del.sync(repoPath, {force: true});
-
+    del(['./.publish/.git']); // Clear the repo before we try pushing.
     return gulp.src('./.publish/**/*')
     .pipe($.ghPages({
         remoteUrl: 'https://github.com/underlost/UnderTasker.git',
         branch: 'gh-pages'
     }));
-    del(['./.publish/.git']);
 });
 
 //Jekyll Tasks
@@ -179,15 +174,14 @@ gulp.task('jekyll', function (done) {
 });
 
 gulp.task('jekyll-rebuild', ['jekyll'], function () {
-    browserSync.reload();
+    return browserSync.reload();
 });
 
 // Default build task
 gulp.task('build', function(callback) {
     runSequence(
         'copy-fonts', 'imagemin',
-        ['build-css', 'build-js'],
-        ['copy-dist', ], callback
+        ['build-css', 'build-js'], 'copy-dist', callback
     );
 });
 
@@ -202,7 +196,7 @@ gulp.task('browser-sync', ['build', 'jekyll'], function() {
 // Deploy to github
 gulp.task('github', function(callback) {
     runSequence(
-        ['clean', 'build'], ['jekyll'], 'github-deploy', callback
+        'clean', 'build', 'jekyll', ['github-deploy'], callback
     );
 });
 
