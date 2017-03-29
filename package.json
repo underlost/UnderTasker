@@ -1,7 +1,7 @@
 {
   "name": "UnderTasker",
   "slug": "under-tasker",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Helping you bootstrap your web site/app using a Gulp, Jekyll & Node.js stack",
   "main": "gulpfile.js",
   "scripts": {
@@ -30,7 +30,7 @@
     "gulp-util": "^3.0.6",
     "gulp-deploy-git": "~0.5.3",
     "gulp-gh-pages": "^0.5.3",
-    "gulp-imagemin": "3.1.1",
+    "gulp-imagemin": "3.2.0",
     "ecstatic": ">=2.1.0",
     "gulp-bower": "~0.0.13",
     "jshint": ">=2.0",

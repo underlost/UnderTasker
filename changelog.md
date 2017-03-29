@@ -1,3 +1,7 @@
+### V0.2.8
+#### Mar 28 2017
+* Updated packages
+
 ### V0.2.7
 #### Feb 18 2017
 * Improved Gulp github task
