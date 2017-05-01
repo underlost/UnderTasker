@@ -1,7 +1,7 @@
 {
   "name": "UnderTasker",
   "slug": "under-tasker",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Helping you bootstrap your web site/app using a Gulp, Jekyll & Node.js stack",
   "main": "gulpfile.js",
   "scripts": {
@@ -55,5 +55,5 @@
   "bugs": {
     "url": "https://github.com/underlost/UnderTasker/issues"
   },
-  "homepage": "http://tyler.codes/UnderTasker"
+  "homepage": "http://UnderTasker.tyler.codes"
 }
