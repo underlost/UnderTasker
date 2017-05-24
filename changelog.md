@@ -1,3 +1,10 @@
+### V0.3.0
+#### May 24 2017
+* Removed Bower
+* Updated packages
+* Updated to Bootstrap4(Alpha-6)
+* Updated README
+
 ### V0.2.9
 #### May 01 2017
 * Updated packages

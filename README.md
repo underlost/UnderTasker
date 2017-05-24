@@ -23,13 +23,13 @@ If there’s a Gulp plugin, you can (probably) use it with UnderTasker. Add, rem
 
 ## Getting Started
 
-UnderTasker requires Node.js to be installed. [Consult the Node.js site](http://nodejs.org/download/) for installation directions on your platform.
+UnderTasker requires Yarn to be installed. [Consult the Yarn site](https://yarnpkg.com/en/) for installation directions on your platform.
 
-*  Run `npm install` for dependencies (list located in _package.json_. This might take a little while.
-*  Run `gulp bower` to download framework dependencies, such as Bootstrap and Font Awesome.
+*  Run `yarn install` for dependencies (list located in _package.json_. This might take a little while.
+*  Run `gulp install` to copy over framework dependencies, such as Bootstrap and Font Awesome to your jekyll build.
 *  By default, your static assets will be called site.extension (site.css, site.js, etc).
 *  If you plan on using UnderTasker for deploying a static site, you will probably want to install something like Jekyll or Jade. 
-*  If you plan on deploying the site with git, make sure you specify the .git url in _package.json. (under repository.ssh)_
+*  If you plan on deploying the site with git, make sure you update `gulpfile.js` with the correct location.
 
 ### If Using Jekyll:
 
@@ -58,8 +58,8 @@ All of your work will mostly be done in the _source_ directory. All files from _
 │ └─ index.html
 ├─ _config.yml
 ├─ gulpfile.js
-├─ bower.json
 ├─ Gemfile
+├─ yarn.lock
 └─ package.json
 ```
 
@@ -71,8 +71,8 @@ Bare minimal css elements from Bootstrap (in the form of LESS) are also included
 
 **UnderTasker** can do everything at once, or just certain tasks. 
 
-*   `gulp bower`
-Downloads/reloads bower packages. This should typically only ever be used at the start of setting up a project, or to redownload any components such as Bootstrap.
+*   `gulp install`
+Copies over frameworks/dependencies from node_modules. This should typically only ever be used at the start of setting up a project.
 *   `gulp brew-coffee`
 Converts coffeescript files inside _source/coffee_ to _source/js/app.js_. 
 *   `gulp build-css`

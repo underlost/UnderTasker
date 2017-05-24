@@ -20,7 +20,6 @@ var gulp   = require('gulp'),
     runSequence = require('run-sequence');
     coffee = require('gulp-coffee');
     gutil = require('gulp-util');
-    bower = require('gulp-bower');
     imagemin = require('gulp-imagemin');
     ghPages = require('gulp-gh-pages');
     git = require('gulp-deploy-git');
@@ -52,10 +51,10 @@ gulp.task('copy-fonts', function() {
     gulp.src('source/fonts/**/*.{ttf,woff,eof,svg,eot,woff2,otf}')
     .pipe(gulp.dest('dist/fonts'));
     // Copy Font scss
-    gulp.src('bower_components/components-font-awesome/scss/**/*.scss')
+    gulp.src('node_modules/components-font-awesome/scss/**/*.scss')
     .pipe(gulp.dest('source/sass/font-awesome'));
     // Copy Font files
-    gulp.src('bower_components/components-font-awesome/fonts/**/*.{ttf,woff,eof,svg,eot,woff2,otf}')
+    gulp.src('node_modules/components-font-awesome/fonts/**/*.{ttf,woff,eof,svg,eot,woff2,otf}')
     .pipe(gulp.dest('dist/fonts'));
 });
 
@@ -66,23 +65,17 @@ gulp.task('imagemin', function() {
 	.pipe(gulp.dest('dist/img'))
 });
 
-// Copy Bower components
-gulp.task('copy-bower', function() {
-    gulp.src('bower_components/components-font-awesome/scss/**/*.*')
+// Copy components
+gulp.task('copy-components', function() {
+    gulp.src('node_modules/components-font-awesome/scss/**/*.*')
     .pipe(gulp.dest('source/sass/font-awesome'));
-    gulp.src('bower_components/bootstrap-sass/assets/stylesheets/**/*.*')
-    .pipe(gulp.dest('source/sass/bootstrap'));
+    gulp.src('node_modules/bootstrap/scss/**/*.*')
+    .pipe(gulp.dest('source/sass/bootstrap4'));
 });
 
-// Runs Bower update
-gulp.task('bower-update', function() {
-    return bower({ cmd: 'update'});
-});
-
-// Bower tasks
-gulp.task('bower', function(callback) {
+gulp.task('install', function(callback) {
     runSequence(
-        'bower-update', 'copy-bower', callback
+        'copy-components', 'copy-fonts', callback
     );
 });
 
@@ -111,9 +104,9 @@ gulp.task('build-css', function() {
 // Concat All JS into unminified single file
 gulp.task('concat-js', function() {
     return gulp.src([
-        // Bower components
-        'bower_components/jquery/dist/jquery.js',
-        'bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
+        // Components
+        'node_modules/jquery/dist/jquery.js',
+        'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js',
         'source/js/site.js',
         // Coffeescript
         'source/js/coffee/*.*',
@@ -151,7 +144,6 @@ gulp.task('watch', function() {
     gulp.watch('source/sass/**/*.scss', ['build-css', 'copy-dist']);
     gulp.watch(['source/site/*.html', 'source/site/_layouts/*.html'], ['jekyll-rebuild']);
 });
-
 
 // Deploy to GitHub Pages
 gulp.task('github-deploy', function () {
