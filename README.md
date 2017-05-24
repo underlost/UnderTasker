@@ -65,7 +65,7 @@ All of your work will mostly be done in the _source_ directory. All files from _
 
 Just about everything happens in gulpfile.js. If you want to make modifications to the workflow, you’ll probably want to edit that. If you&#39;re working with a static site, as previously mentioned, package.json contains several variables you might want to change to better suit the naming conventions of your files, as well as the url to the github repo you might want to deploy your site to.
 
-Bare minimal css elements from Bootstrap (in the form of LESS) are also included to help you get started. These files are in no way required and can be deleted or edited however you want.
+Bare minimal css elements from Bootstrap (in the form of SCSS) are also included to help you get started. These files are in no way required and can be deleted or edited however you want.
 
 ## Commands
 

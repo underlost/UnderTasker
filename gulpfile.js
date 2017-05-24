@@ -106,7 +106,7 @@ gulp.task('concat-js', function() {
     return gulp.src([
         // Components
         'node_modules/jquery/dist/jquery.js',
-        'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js',
+        'node_modules/bootstrap/dist/js/bootstrap.js',
         'source/js/site.js',
         // Coffeescript
         'source/js/coffee/*.*',

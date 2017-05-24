@@ -1,3 +1,7 @@
+### V0.3.1
+#### May 24 2017
+* Fix to now uses Bootstrap v4's Javascript
+
 ### V0.3.0
 #### May 24 2017
 * Removed Bower
