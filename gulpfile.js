@@ -49,9 +49,9 @@ gulp.task('copy-dist', function() {
 // Copy fonts task
 gulp.task('copy-fonts', function() {
     gulp.src('source/fonts/**/*.{ttf,woff,eof,svg,eot,woff2,otf}')
-    .pipe(gulp.dest('source/site/assets/fonts'));
+    .pipe(gulp.dest('dist/fonts'));
     gulp.src('node_modules/components-font-awesome/webfonts/*.{ttf,woff,eof,svg,eot,woff2,otf}')
-    .pipe(gulp.dest('source/site/assets/fonts'));
+    .pipe(gulp.dest('source/fonts'));
 });
 
 // Minify Images
