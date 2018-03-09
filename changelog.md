@@ -1,3 +1,7 @@
+### V0.4.0
+#### Mar 208 2018
+* Updated packages
+
 ### V0.3.1
 #### May 24 2017
 * Fix to now uses Bootstrap v4's Javascript
