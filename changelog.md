@@ -1,5 +1,5 @@
 ### V0.4.0
-#### Mar 208 2018
+#### Mar 8 2018
 * Updated packages
 
 ### V0.3.1
