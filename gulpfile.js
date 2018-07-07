@@ -14,7 +14,7 @@ var gulp   = require('gulp'),
     autoprefixer = require('gulp-autoprefixer');
     cleanCSS = require('gulp-clean-css');
     rename = require('gulp-rename'); // to rename any file
-    uglify = require('gulp-uglify');
+    uglify = require('gulp-uglify-es').default;
     del = require('del');
     stylish = require('jshint-stylish');
     runSequence = require('run-sequence');
@@ -50,7 +50,7 @@ gulp.task('copy-dist', function() {
 gulp.task('copy-fonts', function() {
     gulp.src('source/fonts/**/*.{ttf,woff,eof,svg,eot,woff2,otf}')
     .pipe(gulp.dest('dist/fonts'));
-    gulp.src('node_modules/components-font-awesome/webfonts/*.{ttf,woff,eof,svg,eot,woff2,otf}')
+    gulp.src('node_modules/@fortawesome/fontawesome-free/webfonts/*.{ttf,woff,eof,svg,eot,woff2,otf}')
     .pipe(gulp.dest('source/fonts'));
 });
 
@@ -63,7 +63,7 @@ gulp.task('imagemin', function() {
 
 // Copy Components
 gulp.task('copy-components', function() {
-    gulp.src('node_modules/components-font-awesome/scss/**/*.*')
+    gulp.src('node_modules/@fortawesome/fontawesome-free/scss/**/*.*')
     .pipe(gulp.dest('source/sass/font-awesome'));
     gulp.src('node_modules/bootstrap/scss/**/*.*')
     .pipe(gulp.dest('source/sass/bootstrap'));

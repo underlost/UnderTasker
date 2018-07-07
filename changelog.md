@@ -1,3 +1,10 @@
+### V0.5.0
+#### Jun 10 2018
+* Upgrade ruby requirement to 2.5.1
+* Updated packages
+* Updated gems
+* Overall cleanup of everything
+
 ### V0.4.0
 #### Mar 8 2018
 * Updated packages
