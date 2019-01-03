@@ -17,7 +17,6 @@ var gulp   = require('gulp'),
     uglify = require('gulp-uglify-es').default;
     del = require('del');
     stylish = require('jshint-stylish');
-    runSequence = require('run-sequence');
     coffee = require('gulp-coffee');
     gutil = require('gulp-util');
     imagemin = require('gulp-imagemin');
@@ -34,11 +33,11 @@ var gulp   = require('gulp'),
 
 // Cleans the web dist folder
 gulp.task('clean', function () {
-    return del([
-        'dist/',
-        'source/site/dist/**/*',
-        '.publish'
-    ]);
+  return del([
+    'dist/',
+    'source/site/dist/**/*',
+    '.publish'
+  ]);
 });
 
 // Copy images
@@ -69,76 +68,70 @@ gulp.task('copy-components', function() {
     .pipe(gulp.dest('source/sass/bootstrap'));
 });
 
-gulp.task('install', function(callback) {
-    runSequence(
-        'copy-components', 'copy-fonts', callback
-    );
-});
+gulp.task('install', gulp.parallel('copy-components', 'copy-fonts'));
 
 // Compile coffeescript to JS
 gulp.task('brew-coffee', function() {
-    return gulp.src('source/coffee/*.coffee')
-        .pipe(coffee({bare: true}).on('error', gutil.log))
-        .pipe(gulp.dest('source/js/coffee/'))
+  return gulp.src('source/coffee/*.coffee')
+    .pipe(coffee({bare: true}).on('error', gutil.log))
+    .pipe(gulp.dest('source/js/coffee/'))
 });
 
 // CSS Build Task
 gulp.task('build-css', function() {
   return gulp.src('source/sass/site.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(autoprefixer({
-        browsers: ['last 2 versions'],
-        cascade: false
-    }))
-    .pipe(gulp.dest('dist/css'))
-    .pipe(cleanCSS({compatibility: 'ie9'}))
-    .pipe(rename('site.min.css'))
-    .pipe(gulp.dest('dist/css'))
-    .on('error', sass.logError)
+  .pipe(sass().on('error', sass.logError))
+  .pipe(autoprefixer({
+      browsers: ['last 2 versions'],
+      cascade: false
+  }))
+  .pipe(gulp.dest('dist/css'))
+  .pipe(cleanCSS({compatibility: 'ie9'}))
+  .pipe(rename('site.min.css'))
+  .pipe(gulp.dest('dist/css'))
+  .on('error', sass.logError)
 });
 
 // Concat All JS into unminified single file
 gulp.task('concat-js', function() {
-    return gulp.src([
-        // Components
-        'node_modules/jquery/dist/jquery.js',
-        'node_modules/bootstrap/dist/js/bootstrap.js',
-        'source/js/site.js',
-        // Coffeescript
-        'source/js/coffee/*.*',
-    ])
-    .pipe(sourcemaps.init())
-        .pipe(concat('site.js'))
-        .pipe(sourcemaps.write('./maps'))
-    .pipe(gulp.dest('dist/js'));
+  return gulp.src([
+    // Components
+    'node_modules/jquery/dist/jquery.js',
+    'node_modules/bootstrap/dist/js/bootstrap.bundle.js',
+    'source/js/site.js',
+    // Coffeescript
+    'source/js/coffee/*.*',
+  ], { allowEmpty: true })
+  .pipe(sourcemaps.init())
+  .pipe(concat('site.js'))
+  .pipe(sourcemaps.write('./maps'))
+  .pipe(gulp.dest('dist/js'));
 });
 
 // configure the jshint task
 gulp.task('jshint', function() {
-    return gulp.src('source/js/*.js')
-        .pipe(jshint())
-        .pipe(jshint.reporter('jshint-stylish'));
+  return gulp.src('source/js/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('jshint-stylish'));
 });
 
 // Shrinks all the js
 gulp.task('shrink-js', function() {
-    return gulp.src('dist/js/site.js')
-      .pipe(uglify())
-      .pipe(rename('site.min.js'))
-      .pipe(gulp.dest('dist/js'))
+  return gulp.src('dist/js/site.js')
+  .pipe(uglify())
+  .pipe(rename('site.min.js'))
+  .pipe(gulp.dest('dist/js'))
 });
 
 // Default Javascript build task
-gulp.task('build-js', function(callback) {
-    runSequence('concat-js', 'shrink-js', callback);
-});
+gulp.task('build-js', gulp.series('concat-js', 'shrink-js'));
 
 // configure which files to watch and what tasks to use on file changes
 gulp.task('watch', function() {
-    gulp.watch('source/coffee/**/*.js', ['brew-coffee', 'build-js', 'copy-dist']);
-    gulp.watch('source/js/**/*.js', ['build-js', 'copy-dist']);
-    gulp.watch('source/sass/**/*.scss', ['build-css', 'copy-dist']);
-    gulp.watch(['source/site/*.html', 'source/site/_layouts/*.html'], ['jekyll-rebuild']);
+  gulp.watch('source/coffee/**/*.js', ['brew-coffee', 'build-js', 'copy-dist']);
+  gulp.watch('source/js/**/*.js', ['build-js', 'copy-dist']);
+  gulp.watch('source/sass/**/*.scss', ['build-css', 'copy-dist']);
+  gulp.watch(['source/site/*.html', 'source/site/_layouts/*.html'], ['jekyll-rebuild']);
 });
 
 // Deploy to GitHub Pages
@@ -156,37 +149,28 @@ gulp.task('github-deploy', function () {
 
 //Jekyll Tasks
 gulp.task('jekyll', function (done) {
-    browserSync.notify(messages.jekyllBuild);
-    return child.spawn( jekyll , ['build'], {stdio: 'inherit'})
-        .on('close', done);
+  browserSync.notify(messages.jekyllBuild);
+  return child.spawn( jekyll , ['build'], {stdio: 'inherit'})
+    .on('close', done);
 });
 
-gulp.task('jekyll-rebuild', ['jekyll'], function () {
-    return browserSync.reload();
-});
+gulp.task('jekyll-rebuild', gulp.series('jekyll', function() {
+  return browserSync.reload();
+}));
 
 // Default build task
-gulp.task('build', function(callback) {
-    runSequence(
-        'copy-fonts', 'imagemin',
-        ['build-css', 'build-js'], 'copy-dist', callback
-    );
-});
+gulp.task('build', gulp.series('imagemin', 'build-css', 'build-js', 'copy-dist'));
 
-gulp.task('browser-sync', ['build', 'jekyll'], function() {
-    browserSync({
-        server: {
-            baseDir: '.publish'
-        }
-    });
-});
+gulp.task('browser-sync', gulp.series(['build', 'jekyll'], function() {
+  browserSync({
+    server: {
+      baseDir: '.publish'
+    }
+  });
+}));
 
 // Deploy to github
-gulp.task('github', function(callback) {
-    runSequence(
-        'clean', 'build', 'jekyll', ['github-deploy'], callback
-    );
-});
+gulp.task('github', gulp.series('clean', 'build', 'jekyll', 'github-deploy'));
 
 // Deploy to a .git repo
 gulp.task('deploy', function() {
@@ -199,4 +183,4 @@ gulp.task('deploy', function() {
 });
 
 // Default task will build the jekyll site, launch BrowserSync & watch files.
-gulp.task('default', ['browser-sync', 'watch']);
+gulp.task('default', gulp.series(['browser-sync', 'watch']));
