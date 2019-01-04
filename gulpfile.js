@@ -1,35 +1,35 @@
 /*!
  * UnderTasker
- * Copyright 2018 Tyler Rilling
+ * Copyright 2019 Tyler Rilling
  * Licensed under MIT (https://github.com/underlost/Undertasker/blob/master/LICENSE)
  */
 
 // grab our packages
-var gulp   = require('gulp'),
-    child = require('child_process');
-    jshint = require('gulp-jshint');
-    sass = require('gulp-sass');
-    sourcemaps = require('gulp-sourcemaps');
-    concat = require('gulp-concat');
-    autoprefixer = require('gulp-autoprefixer');
-    cleanCSS = require('gulp-clean-css');
-    rename = require('gulp-rename'); // to rename any file
-    uglify = require('gulp-uglify-es').default;
-    del = require('del');
-    stylish = require('jshint-stylish');
-    coffee = require('gulp-coffee');
-    gutil = require('gulp-util');
-    imagemin = require('gulp-imagemin');
-    ghPages = require('gulp-gh-pages');
-    git = require('gulp-deploy-git');
-    browserSync = require('browser-sync');
-    argv = require('minimist')(process.argv.slice(2));
-    $ = require('gulp-load-plugins')();
+gulp = require('gulp');
+child = require('child_process');
+jshint = require('gulp-jshint');
+sass = require('gulp-sass');
+sourcemaps = require('gulp-sourcemaps');
+concat = require('gulp-concat');
+autoprefixer = require('gulp-autoprefixer');
+cleanCSS = require('gulp-clean-css');
+rename = require('gulp-rename'); // to rename any file
+uglify = require('gulp-uglify-es').default;
+del = require('del');
+stylish = require('jshint-stylish');
+coffee = require('gulp-coffee');
+gutil = require('gulp-util');
+imagemin = require('gulp-imagemin');
+ghPages = require('gulp-gh-pages');
+git = require('gulp-deploy-git');
+browserSync = require('browser-sync');
+argv = require('minimist')(process.argv.slice(2));
+$ = require('gulp-load-plugins')();
 
-    var messages = {
-        jekyllBuild: '<span style="color: grey">Running:</span> $ jekyll build'
-    };
-    var jekyll = process.platform === 'win32' ? 'jekyll.bat' : 'jekyll';
+var messages = {
+  jekyllBuild: '<span style="color: grey">Running:</span> $ jekyll build'
+};
+var jekyll = process.platform === 'win32' ? 'jekyll.bat' : 'jekyll';
 
 // Cleans the web dist folder
 gulp.task('clean', function () {
@@ -42,30 +42,30 @@ gulp.task('clean', function () {
 
 // Copy images
 gulp.task('copy-dist', function() {
-    return gulp.src('dist/**/*.*').pipe(gulp.dest('source/site/dist'));
+  return gulp.src('dist/**/*.*').pipe(gulp.dest('source/site/dist'));
 });
 
-// Copy fonts task
+// Copy fonts
 gulp.task('copy-fonts', function() {
-    gulp.src('source/fonts/**/*.{ttf,woff,eof,svg,eot,woff2,otf}')
-    .pipe(gulp.dest('dist/fonts'));
-    gulp.src('node_modules/@fortawesome/fontawesome-free/webfonts/*.{ttf,woff,eof,svg,eot,woff2,otf}')
-    .pipe(gulp.dest('source/fonts'));
+  return gulp.src('source/fonts/**/*.{ttf,woff,eof,svg,eot,woff2,otf}')
+  .pipe(gulp.dest('dist/fonts'));
+  return gulp.src('node_modules/@fortawesome/fontawesome-free/webfonts/*.{ttf,woff,eof,svg,eot,woff2,otf}')
+  .pipe(gulp.dest('source/fonts'));
 });
 
 // Minify Images
 gulp.task('imagemin', function() {
-    return gulp.src('source/img/**/*.{jpg,png,gif,ico}')
+  return gulp.src('source/img/**/*.{jpg,png,gif,ico}')
 	.pipe(imagemin())
 	.pipe(gulp.dest('dist/img'))
 });
 
 // Copy Components
 gulp.task('copy-components', function() {
-    gulp.src('node_modules/@fortawesome/fontawesome-free/scss/**/*.*')
-    .pipe(gulp.dest('source/sass/font-awesome'));
-    gulp.src('node_modules/bootstrap/scss/**/*.*')
-    .pipe(gulp.dest('source/sass/bootstrap'));
+  return gulp.src('node_modules/@fortawesome/fontawesome-free/scss/**/*.*')
+  .pipe(gulp.dest('source/sass/font-awesome'));
+  return gulp.src('node_modules/bootstrap/scss/**/*.*')
+  .pipe(gulp.dest('source/sass/bootstrap'));
 });
 
 gulp.task('install', gulp.parallel('copy-components', 'copy-fonts'));
@@ -73,8 +73,8 @@ gulp.task('install', gulp.parallel('copy-components', 'copy-fonts'));
 // Compile coffeescript to JS
 gulp.task('brew-coffee', function() {
   return gulp.src('source/coffee/*.coffee')
-    .pipe(coffee({bare: true}).on('error', gutil.log))
-    .pipe(gulp.dest('source/js/coffee/'))
+  .pipe(coffee({bare: true}).on('error', gutil.log))
+  .pipe(gulp.dest('source/js/coffee/'))
 });
 
 // CSS Build Task
@@ -111,8 +111,8 @@ gulp.task('concat-js', function() {
 // configure the jshint task
 gulp.task('jshint', function() {
   return gulp.src('source/js/*.js')
-    .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'));
+  .pipe(jshint())
+  .pipe(jshint.reporter('jshint-stylish'));
 });
 
 // Shrinks all the js
@@ -128,10 +128,10 @@ gulp.task('build-js', gulp.series('concat-js', 'shrink-js'));
 
 // configure which files to watch and what tasks to use on file changes
 gulp.task('watch', function() {
-  gulp.watch('source/coffee/**/*.js', ['brew-coffee', 'build-js', 'copy-dist']);
-  gulp.watch('source/js/**/*.js', ['build-js', 'copy-dist']);
-  gulp.watch('source/sass/**/*.scss', ['build-css', 'copy-dist']);
-  gulp.watch(['source/site/*.html', 'source/site/_layouts/*.html'], ['jekyll-rebuild']);
+  gulp.watch('source/coffee/**/*.js', gulp.series(['brew-coffee', 'build-js', 'copy-dist']));
+  gulp.watch('source/js/**/*.js', gulp.series(['build-js', 'copy-dist']));
+  gulp.watch('source/sass/**/*.scss', gulp.series(['build-css', 'copy-dist']));
+  gulp.watch(['source/site/*.html', 'source/site/_layouts/*.html'], gulp.series(['jekyll-rebuild']));
 });
 
 // Deploy to GitHub Pages
@@ -174,12 +174,12 @@ gulp.task('github', gulp.series('clean', 'build', 'jekyll', 'github-deploy'));
 
 // Deploy to a .git repo
 gulp.task('deploy', function() {
-    return gulp.src('./source/**/*')
-    .pipe(git({
-        repository: 'https://github.com/underlost/UnderTasker.git',
-        branches:   ['gh-pages'],
-        message: 'Deployed with UnderTasker.'
-    }));
+  return gulp.src('./source/**/*')
+  .pipe(git({
+      repository: 'https://github.com/underlost/UnderTasker.git',
+      branches:   ['gh-pages'],
+      message: 'Deployed with UnderTasker.'
+  }));
 });
 
 // Default task will build the jekyll site, launch BrowserSync & watch files.
