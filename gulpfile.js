@@ -47,10 +47,11 @@ gulp.task('copy-dist', function() {
 
 // Copy fonts
 gulp.task('copy-fonts', function() {
-  return gulp.src('source/fonts/**/*.{ttf,woff,eof,svg,eot,woff2,otf}')
+  return gulp.src([
+    'source/fonts/**/*.{ttf,woff,eof,svg,eot,woff2,otf}',
+    'node_modules/@fortawesome/fontawesome-free/webfonts/*.{ttf,woff,eof,svg,eot,woff2,otf}'
+  ])
   .pipe(gulp.dest('dist/fonts'));
-  return gulp.src('node_modules/@fortawesome/fontawesome-free/webfonts/*.{ttf,woff,eof,svg,eot,woff2,otf}')
-  .pipe(gulp.dest('source/fonts'));
 });
 
 // Minify Images
@@ -61,14 +62,15 @@ gulp.task('imagemin', function() {
 });
 
 // Copy Components
-gulp.task('copy-components', function() {
+gulp.task('copy-font-awesome', function() {
   return gulp.src('node_modules/@fortawesome/fontawesome-free/scss/**/*.*')
   .pipe(gulp.dest('source/sass/font-awesome'));
+});
+gulp.task('copy-bootstrap', function() {
   return gulp.src('node_modules/bootstrap/scss/**/*.*')
   .pipe(gulp.dest('source/sass/bootstrap'));
 });
-
-gulp.task('install', gulp.parallel('copy-components', 'copy-fonts'));
+gulp.task('install', gulp.parallel('copy-font-awesome', 'copy-bootstrap', 'copy-fonts'));
 
 // Compile coffeescript to JS
 gulp.task('brew-coffee', function() {
@@ -136,15 +138,15 @@ gulp.task('watch', function() {
 
 // Deploy to GitHub Pages
 gulp.task('github-deploy', function () {
-    var repoPath = require('path').join(require('os').tmpdir(), 'tmpRepo');
-    $.util.log('Delete ' + $.util.colors.magenta(repoPath));
-    del.sync(repoPath, {force: true});
-    del(['./.publish/.git']); // Clear the repo before we try pushing.
-    return gulp.src('./.publish/**/*')
-    .pipe($.ghPages({
-        remoteUrl: 'https://github.com/underlost/UnderTasker.git',
-        branch: 'gh-pages'
-    }));
+  var repoPath = require('path').join(require('os').tmpdir(), 'tmpRepo');
+  $.util.log('Delete ' + $.util.colors.magenta(repoPath));
+  del.sync(repoPath, {force: true});
+  del(['./.publish/.git']); // Clear the repo before we try pushing.
+  return gulp.src('./.publish/**/*')
+  .pipe($.ghPages({
+      remoteUrl: 'https://github.com/underlost/UnderTasker.git',
+      branch: 'gh-pages'
+  }));
 });
 
 //Jekyll Tasks
