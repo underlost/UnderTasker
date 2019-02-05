@@ -8,7 +8,7 @@
 gulp = require('gulp');
 child = require('child_process');
 jshint = require('gulp-jshint');
-sass = require('gulp-sass');
+sass = require('gulp-sass'); sass.compiler = require('node-sass');
 sourcemaps = require('gulp-sourcemaps');
 concat = require('gulp-concat');
 autoprefixer = require('gulp-autoprefixer');
@@ -23,26 +23,34 @@ imagemin = require('gulp-imagemin');
 ghPages = require('gulp-gh-pages');
 git = require('gulp-deploy-git');
 browserSync = require('browser-sync');
-argv = require('minimist')(process.argv.slice(2));
 $ = require('gulp-load-plugins')();
-
-var messages = {
-  jekyllBuild: '<span style="color: grey">Running:</span> $ jekyll build'
-};
-var jekyll = process.platform === 'win32' ? 'jekyll.bat' : 'jekyll';
+awspublish = require("gulp-awspublish");
+fs = require('fs');
+concurrent = require("concurrent-transform");
 
 // Cleans the web dist folder
 gulp.task('clean', function () {
   return del([
-    'dist/',
     'source/site/dist/**/*',
     '.publish'
   ]);
 });
 
-// Copy images
-gulp.task('copy-dist', function() {
-  return gulp.src('dist/**/*.*').pipe(gulp.dest('source/site/dist'));
+gulp.task('browserSync', function (done) {
+  browserSync.init({
+    server: { baseDir: ".publish/" },
+    port: 9005
+  });
+  done();
+});
+gulp.task('browserSyncReload', function (done) {
+  browserSync.reload();
+  done();
+});
+
+gulp.task('copy-assets', function() {
+  return gulp.src('source/site/dist/**/*')
+  .pipe(gulp.dest('.publish/dist'));
 });
 
 // Copy fonts
@@ -51,14 +59,15 @@ gulp.task('copy-fonts', function() {
     'source/fonts/**/*.{ttf,woff,eof,svg,eot,woff2,otf}',
     'node_modules/@fortawesome/fontawesome-free/webfonts/*.{ttf,woff,eof,svg,eot,woff2,otf}'
   ])
-  .pipe(gulp.dest('dist/fonts'));
+  .pipe(gulp.dest('source/site/dist/fonts'));
 });
 
 // Minify Images
 gulp.task('imagemin', function() {
   return gulp.src('source/img/**/*.{jpg,png,gif,ico}')
 	.pipe(imagemin())
-	.pipe(gulp.dest('dist/img'))
+	.pipe(gulp.dest('source/site/dist/img'))
+  .pipe(browserSync.stream());
 });
 
 // Copy Components
@@ -87,11 +96,12 @@ gulp.task('build-css', function() {
       browsers: ['last 2 versions'],
       cascade: false
   }))
-  .pipe(gulp.dest('dist/css'))
+  .pipe(gulp.dest('source/site/dist/css'))
   .pipe(cleanCSS({compatibility: 'ie9'}))
   .pipe(rename('site.min.css'))
-  .pipe(gulp.dest('dist/css'))
+  .pipe(gulp.dest('source/site/dist/css'))
   .on('error', sass.logError)
+  .pipe(browserSync.stream())
 });
 
 // Concat All JS into unminified single file
@@ -107,7 +117,7 @@ gulp.task('concat-js', function() {
   .pipe(sourcemaps.init())
   .pipe(concat('site.js'))
   .pipe(sourcemaps.write('./maps'))
-  .pipe(gulp.dest('dist/js'));
+  .pipe(gulp.dest('source/site/dist/js'));
 });
 
 // configure the jshint task
@@ -119,21 +129,21 @@ gulp.task('jshint', function() {
 
 // Shrinks all the js
 gulp.task('shrink-js', function() {
-  return gulp.src('dist/js/site.js')
+  return gulp.src('source/site/dist/js/site.js')
   .pipe(uglify())
   .pipe(rename('site.min.js'))
-  .pipe(gulp.dest('dist/js'))
+  .pipe(gulp.dest('source/site/dist/js'))
 });
 
 // Default Javascript build task
 gulp.task('build-js', gulp.series('concat-js', 'shrink-js'));
 
 // configure which files to watch and what tasks to use on file changes
-gulp.task('watch', function() {
-  gulp.watch('source/coffee/**/*.js', gulp.series(['brew-coffee', 'build-js', 'copy-dist']));
-  gulp.watch('source/js/**/*.js', gulp.series(['build-js', 'copy-dist']));
-  gulp.watch('source/sass/**/*.scss', gulp.series(['build-css', 'copy-dist']));
-  gulp.watch(['source/site/*.html', 'source/site/_layouts/*.html'], gulp.series(['jekyll-rebuild']));
+gulp.task('watchFiles', function() {
+  gulp.watch('source/coffee/**/*.js', gulp.series(['brew-coffee', 'build-js', 'copy-assets']));
+  gulp.watch('source/js/**/*.js', gulp.series(['build-js', 'copy-assets']));
+  gulp.watch('source/sass/**/*.scss', gulp.series(['build-css', 'copy-assets']));
+  gulp.watch("source/site/**/*", gulp.series('jekyll', 'browserSyncReload');
 });
 
 // Deploy to GitHub Pages
@@ -144,45 +154,49 @@ gulp.task('github-deploy', function () {
   del(['./.publish/.git']); // Clear the repo before we try pushing.
   return gulp.src('./.publish/**/*')
   .pipe($.ghPages({
-      remoteUrl: 'https://github.com/underlost/UnderTasker.git',
-      branch: 'gh-pages'
+    remoteUrl: 'https://github.com/underlost/UnderTasker.git',
+    branch: 'gh-pages'
   }));
 });
-
-//Jekyll Tasks
-gulp.task('jekyll', function (done) {
-  browserSync.notify(messages.jekyllBuild);
-  return child.spawn( jekyll , ['build'], {stdio: 'inherit'})
-    .on('close', done);
-});
-
-gulp.task('jekyll-rebuild', gulp.series('jekyll', function() {
-  return browserSync.reload();
-}));
-
-// Default build task
-gulp.task('build', gulp.series('imagemin', 'build-css', 'build-js', 'copy-dist'));
-
-gulp.task('browser-sync', gulp.series(['build', 'jekyll'], function() {
-  browserSync({
-    server: {
-      baseDir: '.publish'
-    }
-  });
-}));
-
-// Deploy to github
-gulp.task('github', gulp.series('clean', 'build', 'jekyll', 'github-deploy'));
 
 // Deploy to a .git repo
 gulp.task('deploy', function() {
   return gulp.src('./source/**/*')
   .pipe(git({
-      repository: 'https://github.com/underlost/UnderTasker.git',
-      branches:   ['gh-pages'],
-      message: 'Deployed with UnderTasker.'
+    repository: 'https://github.com/underlost/UnderTasker.git',
+    branches:   ['gh-pages'],
+    message: 'Deployed with UnderTasker.'
   }));
 });
 
+//S3 Publish
+gulp.task('s3', function () {
+  var credentials = JSON.parse(fs.readFileSync('.awspublish-settings.json', 'utf8'));
+  var publisher = awspublish.create(credentials);
+  var headers = {
+     'Cache-Control': 'max-age=315360000, no-transform, public'
+  };
+  return gulp.src('.publish/**/*.*',{cwd:'.'})
+  .pipe(awspublish.gzip())
+  .pipe(concurrent(publisher.publish(headers)), 10)
+  .pipe(publisher.cache())
+  .pipe(publisher.sync())
+  .pipe(awspublish.reporter());
+});
+
+// Jekyll
+gulp.task('jekyll', function() {
+  return child.spawn("bundle", ["exec", "jekyll", "build"], { stdio: "inherit" });
+});
+
+// Default build task
+gulp.task('build', gulp.series('clean', gulp.parallel('imagemin', 'build-css', 'build-js', 'cop-fonts', 'jekyll') ));
+
+// Deploy to github
+gulp.task('github', gulp.series('build', 'github-deploy'));
+
+// Gulp Watch
+gulp.task('watch', gulp.parallel('watchFiles', 'browserSync'));
+
 // Default task will build the jekyll site, launch BrowserSync & watch files.
-gulp.task('default', gulp.series(['browser-sync', 'watch']));
+gulp.task('default', gulp.series(['watch']));

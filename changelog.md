@@ -1,3 +1,9 @@
+### V0.7.0
+#### Feb 03 2019
+* Replace unmaintained S3 gem file with gulp task.
+* Better gulp build/watch process.
+* Updated Jekyll build process.
+
 ### V0.6.0
 #### Jan 4 2019
 * Upgrade ruby requirement to 2.6.0
