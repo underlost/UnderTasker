@@ -143,7 +143,7 @@ gulp.task('watchFiles', function() {
   gulp.watch('source/coffee/**/*.js', gulp.series(['brew-coffee', 'build-js', 'copy-assets']));
   gulp.watch('source/js/**/*.js', gulp.series(['build-js', 'copy-assets']));
   gulp.watch('source/sass/**/*.scss', gulp.series(['build-css', 'copy-assets']));
-  gulp.watch("source/site/**/*", gulp.series('jekyll', 'browserSyncReload');
+  gulp.watch("source/site/**/*", gulp.series('jekyll', 'browserSyncReload'));
 });
 
 // Deploy to GitHub Pages
@@ -190,7 +190,7 @@ gulp.task('jekyll', function() {
 });
 
 // Default build task
-gulp.task('build', gulp.series('clean', gulp.parallel('imagemin', 'build-css', 'build-js', 'cop-fonts', 'jekyll') ));
+gulp.task('build', gulp.series('clean', gulp.parallel('imagemin', 'build-css', 'build-js', 'copy-fonts', 'jekyll') ));
 
 // Deploy to github
 gulp.task('github', gulp.series('build', 'github-deploy'));
