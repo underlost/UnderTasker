@@ -192,6 +192,9 @@ gulp.task('jekyll', function() {
 // Default build task
 gulp.task('build', gulp.series('clean', gulp.parallel('imagemin', 'build-css', 'build-js', 'copy-fonts', 'jekyll') ));
 
+// Default build task
+gulp.task('build-no-jekyll', gulp.series('clean', gulp.parallel('imagemin', 'build-css', 'build-js', 'copy-fonts') ));
+
 // Deploy to github
 gulp.task('github', gulp.series('build', 'github-deploy'));
 

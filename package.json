@@ -6,10 +6,11 @@
   "main": "gulpfile.js",
   "scripts": {
     "prestart": "yarn install",
-    "build": "gulp build",
+    "jekyll": "bundle exec jekyll serve --w",
+    "build": "build-no-jekyll",
     "watch": "gulp watch",
-    "shipit": "gulp github",
-    "start": "bundle exec jekyll serve --w"
+    "github": "gulp github",
+    "s3": "gulp s3"
   },
   "dependencies": {
     "bootstrap": "^4.2.1",

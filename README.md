@@ -1,8 +1,7 @@
-[![dependencies Status](https://david-dm.org/underlost/undertasker/status.svg)](https://david-dm.org/underlost/undertasker)
 [![Build Status](https://travis-ci.org/underlost/UnderTasker.svg?branch=master)](https://travis-ci.org/underlost/UnderTasker)
 
 # UnderTasker
-
+---
 I built UnderTasker to help assist in developing and testing websites. More specifically, I wrote it to help develop [underlost.net](underlost.net) and [A Life Well Played](alifewellplayed.com), but have since used it for other projects. It’s mainly designed to help generate production ready static assets from their source files, as well as quickly publish sites to [Github Pages](pages.github.com). Think of it as a sort of swiss army knife for your websites. 
 
 Out of the box, UnderTasker uses the following:
@@ -26,14 +25,14 @@ UnderTasker requires Yarn to be installed. [Consult the Yarn site](https://yarnp
 *  Run `yarn install` for dependencies (list located in _package.json_. This might take a little while.
 *  Run `gulp install` to copy over framework dependencies, such as Bootstrap and Font Awesome to your jekyll build.
 *  By default, your static assets will be called site.extension (site.css, site.js, etc).
-*  If you plan on using UnderTasker for deploying a static site, you will probably want to install something like Jekyll or Jade. 
 *  If you plan on deploying the site with git, make sure you update `gulpfile.js` with the correct location.
 
 ### If Using Jekyll:
 
 *   If necessary, [install Jekyll](http://jekyllrb.com/docs/installation) (requires v2.1.x).
-*   From the root /undertasker directory, run `jekyll serve` in the command line. Or if you're using bundler, `bundle exec jekyll serve`.
+*   From the root /undertasker directory, run `yarn start` in the command line.
 *   Visit [http://localhost:9005](http://localhost:9005/) in your browser.
+*   By default, `yarn start` will use browserSync to run the jekyll build command and reload the page whenever any html changes are detected.
 
 ## What’s Included
 
@@ -61,36 +60,36 @@ All of your work will mostly be done in the _source_ directory. All files from _
 └─ package.json
 ```
 
-Just about everything happens in gulpfile.js. If you want to make modifications to the workflow, you’ll probably want to edit that. If you&#39;re working with a static site, as previously mentioned, package.json contains several variables you might want to change to better suit the naming conventions of your files, as well as the url to the github repo you might want to deploy your site to.
+Just about everything happens in gulpfile.js. If you want to make modifications to the workflow, you’ll probably want to edit that. If you&#39;re working with a static site, as previously mentioned, package.json contains several variables you might want to change to better suit the naming conventions of your files.
 
 Bare minimal css elements from Bootstrap (in the form of SCSS) are also included to help you get started. These files are in no way required and can be deleted or edited however you want.
 
-## Commands
+## Useful Commands
 
-**UnderTasker** can do everything at once, or just certain tasks. 
+**UnderTasker** can do everything at once, or just certain tasks:
 
 *   `gulp install`
 Copies over frameworks/dependencies from node_modules. This should typically only ever be used at the start of setting up a project.
-*   `gulp brew-coffee`
+*   `yarn brew`
 Converts coffeescript files inside _source/coffee_ to _source/js/app.js_. 
 *   `gulp build-css`
-Only compiles, autoprefixes, and minifies the CSS. 
+Compiles, autoprefixes, and minifies the CSS. 
 *   `gulp build-js`
-Minimizes and uglifies everything in the js directory into a single file (including app.js).
-*   `gulp imagemin`
+Minimizes and uglifies everything in the js directory into a single file (including site.js).
+*   `yarn images`
 Attempts to optimize any JPG/PNG/GIF images in _source/img._
-*   `guild build`
-Build all static assets from _source_, including sass and javascript, as well as tries to optimize any JPG/PNG files in _source/img_.
-*   `gulp deploy`
-Builds, validates and deploys your *.publish* directory and compiled assets to the git repository specified. This might take a few minutes, depending on the size of your site and connection speed.
-*   `gulp github`
-Runs `gulp build` and attempts to deploy to your project's Github Pages.
-*   `gulp clean`
+*   `yarn build`
+Only build all static assets from _source_, including sass and javascript, as well as tries to optimize any JPG/PNG files in _source/img_ and copies them to _dist_.
+*   `yarn github`
+Attempts to build all assets deploys to your project's Github Page.
+*   `yarn s3`
+Attempts to build all assets deploys to your project's AWS S3 Bucket (Does *not* invalidate Cloudfront cache).
+*   `yarn clean`
 Cleans out (deletes) the dist folders.
-*   `gulp jekyll`
+*   `yarn jekyll`
 Runs jekyll and builds the site into *.publish*.
-*   `gulp watch`
-Watches for any css/HTML changes as well as changes to HTML in site/source, and updates the site accordingly.
+*   `yarn watch`
+Watches for any CSS/JS/HTML changes, and reloads the browser accordingly.
 
 ## Usage
 
@@ -100,18 +99,27 @@ If you're not interested in compiling the HTML, `gulp watch` will act similar, a
 
 ## Example
 
-To see it in action, visit the [**UnderTasker**](http://tyler.codes/UnderTasker) site. To view the source, or to clone the git repo, check out [https://github.com/underlost/UnderTasker](https://github.com/underlost/UnderTasker). I also built [**tyler.codes**](http://tyler.codes/) [(source)](https://github.com/underlost/underlost.github.io) and [**underlost.net**](http://underlost.net/) [(source)](https://github.com/underlost/underlost.net) with UnderTasker.
+To see it in action, visit the [**UnderTasker**](http://tyler.codes/UnderTasker) site. To view the source, or to clone the git repo, check out [https://github.com/underlost/UnderTasker](https://github.com/underlost/UnderTasker). I also built [**tyler.codes**](http://tyler.codes/) [(source)](https://github.com/underlost/underlost.github.io) and [**underlost.net**](http://underlost.net/) [(source)](https://github.com/underlost/underlost.net) with UnderTasker. I continue to use UnderTasker for various client projects as well.
 
 
 ## Support
 
-If you&#39;re not sure what this is, it’s probably not for you. UnderTasker is provided as is, and I can not assist in helping you get it setup beyond what's written in these docs. Your best bet is to first go read up on [Gulp](http://gulpjs.com/), then come back here. If you believe you’ve encountered a bug, feel free to open an [issue on Github](https://github.com/underlost/UnderTasker/issues).
+If you&#39;re not sure what this is, it’s probably not for you. UnderTasker is provided as is, and I can not assist in helping you get it setup beyond what's written in these docs. Your best bet is to first go read up on [Gulp](http://gulpjs.com/). If you believe you’ve encountered a bug, feel free to open an [issue on Github](https://github.com/underlost/UnderTasker/issues).
 
+## Changes
+
+For updates and changes to this project, please refer to [changelog.md](https://github.com/underlost/UnderTasker/blob/master/changelog.md).
+
+## Roadmap & Features Requests
+
+UnderTasker is built as is, for my use. Feature requests will be considered, but if you'd like to make any changes or add new features, I'd suggest just forking the repo.
+
+That being said, below are some of the updates that I'll be focusing on  for future releases:
+
+* Better AWS support, including invalidating Cloudfront caches.
+* Heroku Support
+* WordPress/CMS integrations. Often times I'll modify UnderTasker to work with WordPress theme development. I'd like to eventually modify the UnderTasker workflow to generate a gulpfile.js and directory structure based on project type.
 
 ## License
 
 UnderTasker is released under the [MIT License](https://github.com/underlost/UnderTasker/blob/master/LICENSE).
-
-
-## Changes
-For updates and changes to this project, please refer to [changelog.md](https://github.com/underlost/UnderTasker/blob/master/changelog.md).

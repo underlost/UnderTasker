@@ -1,3 +1,8 @@
+### V0.7.1
+#### Feb 08 2019
+* Bug fixes
+* Yarn package cleanup
+
 ### V0.7.0
 #### Feb 03 2019
 * Replace unmaintained S3 gem file with gulp task.
@@ -8,7 +13,7 @@
 #### Jan 4 2019
 * Upgrade ruby requirement to 2.6.0
 * Upgrade to Gulp requirement to 4.0
-* Rewrote gulpfile.js to support v4
+* Rewrote gulpfile.js to support gulp 4.0.0
 * Package updates
 ---
 ### V0.5.0
